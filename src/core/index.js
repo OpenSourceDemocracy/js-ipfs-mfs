@@ -5,6 +5,10 @@ const {
   createLock
 } = require('./utils')
 
+const {
+  MFS_ROOT_KEY
+} = require('./utils/constants')
+
 const readOperations = {
   ls: require('./ls'),
   read: require('./read'),
@@ -38,7 +42,9 @@ module.exports = (ipfs, options) => {
   const {
     repoOwner
   } = Object.assign({}, defaultOptions || {}, options)
-
+  if (repoOwner.root) {
+    MFS_ROOT_KEY = repoOwner.root
+  }
   const lock = createLock(repoOwner)
 
   const readLock = (operation) => {
